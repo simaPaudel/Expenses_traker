@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -37,7 +39,7 @@ const createAdminUser = async () => {
     const User = require('./models/User');
     
     // Check if admin already exists - USE THE SAME EMAIL
-    const existingAdmin = await User.findOne({ email: 'admin@test.com' });
+    const existingAdmin = await User.findOne({ email: 'admin@ttest.com' });
     
     if (existingAdmin) {
       console.log('✅ Admin user already exists');
@@ -47,13 +49,13 @@ const createAdminUser = async () => {
     
     const adminUser = new User({
       name: 'System Administrator',
-      email: 'admin@test.com', 
+      email: 'admin@testt.com', 
       role: 'admin'
     });
 
     await adminUser.save();
     console.log('🎉 ADMIN USER CREATED SUCCESSFULLY!');
-    console.log('📧 Email: admin@test.com');
+    console.log('📧 Email: admin@testt.com');
     console.log('🔑 Password: admin123');
     console.log('👤 Role: admin');
 
@@ -67,8 +69,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'Expense Tracker API is working!' });
 });
 
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
