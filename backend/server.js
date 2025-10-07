@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expense-t
   .then(async () => {
     console.log('Connected to MongoDB');
     
-    // ✅ CREATE ADMIN USER AFTER DATABASE CONNECTION
+    
     await createAdminUser();
   })
   .catch(err => console.log('Error:', err));
@@ -33,7 +33,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expense-t
 // Function to create admin user
 const createAdminUser = async () => {
   try {
-    // Import User model (make sure this path is correct)
+    
     const User = require('./models/User');
     
     // Check if admin already exists - USE THE SAME EMAIL
@@ -44,13 +44,10 @@ const createAdminUser = async () => {
       return;
     }
 
-    // Create admin user - USE THE SAME EMAIL
-    const hashedPassword = await bcrypt.hash('admin123', 10);
     
     const adminUser = new User({
       name: 'System Administrator',
-      email: 'admin@test.com', // FIXED: Consistent email
-      password: hashedPassword,
+      email: 'admin@test.com', 
       role: 'admin'
     });
 
