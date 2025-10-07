@@ -3,6 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// Add this at the top - after imports
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalIncome: 0,
@@ -28,7 +31,7 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       console.log('📊 Fetching dashboard data...');
-      const response = await axios.get('http://localhost:5000/api/expenses/dashboard');
+      const response = await axios.get(`${API_BASE_URL}/api/expenses/dashboard`);
       console.log('✅ Dashboard data:', response.data);
       setStats(response.data.data || response.data);
     } catch (error) {
@@ -40,7 +43,7 @@ const Dashboard = () => {
   const fetchExpenses = async () => {
     try {
       console.log('📋 Fetching expenses...');
-      const response = await axios.get(`http://localhost:5000/api/expenses?page=${currentPage}&limit=5`);
+      const response = await axios.get(`${API_BASE_URL}/api/expenses?page=${currentPage}&limit=5`);
       console.log('✅ Expenses data:', response.data);
       setExpenses(response.data.data?.expenses || response.data.expenses || []);
       setTotalPages(response.data.data?.totalPages || response.data.totalPages || 1);
@@ -55,7 +58,7 @@ const Dashboard = () => {
   const deleteExpense = async (expenseId) => {
     if (window.confirm('Are you sure you want to delete this transaction?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/expenses/${expenseId}`);
+        await axios.delete(`${API_BASE_URL}/api/expenses/${expenseId}`);
         fetchDashboardData();
         fetchExpenses();
       } catch (error) {
