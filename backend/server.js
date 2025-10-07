@@ -86,14 +86,14 @@ const createAdminUser = async () => {
     
     const adminUser = new User({
       name: 'System Administrator',
-      email: 'admin@.com',
+      email: 'admin@test.com',
       password: hashedPassword,
       role: 'admin'
     });
 
     await adminUser.save();
     console.log('🎉 ADMIN USER CREATED SUCCESSFULLY!');
-    console.log('📧 Email: admin@.com');
+    console.log('📧 Email: admin@test.com');
     console.log('🔑 Password: admin123');
     console.log('👤 Role: admin');
 
