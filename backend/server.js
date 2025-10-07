@@ -58,11 +58,11 @@ const createAdminUser = async () => {
     console.log('👤 Role: admin');
 
   } catch (error) {
-    console.log('⚠️ Admin creation error:', error.message);
+    console.log(' Admin creation error:', error.message);
   }
 };
 
-// Basic route
+
 app.get('/', (req, res) => {
   res.json({ message: 'Expense Tracker API is working!' });
 });
