@@ -59,8 +59,7 @@ export const AuthProvider = ({ children }) => {
       
       // Set axios default header
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      
-      // ✅ CRITICAL: Update state to trigger re-render
+     
       setUser(userData);
 
       return { 

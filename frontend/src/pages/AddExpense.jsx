@@ -50,7 +50,7 @@ const handleSubmit = async (e) => {
       type: formData.type,
       taxType: formData.taxType,
       taxAmount: parseFloat(formData.taxAmount) || 0,
-      totalAmount: totalAmount // ✅ Make sure this is included
+      totalAmount: totalAmount
     };
 
     console.log('Sending expense data:', expenseData);
@@ -59,7 +59,7 @@ const handleSubmit = async (e) => {
     
     console.log('✅ Expense added successfully:', response.data);
     
-    // ✅ FIX: Navigate to dashboard after successful addition
+
     navigate('/dashboard');
     
   } catch (error) {

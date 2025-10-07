@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
       });
     }
     
-    // ✅ FIX: Create user with proper role handling
+   
     const userData = { 
       name, 
       email, 
@@ -47,12 +47,12 @@ router.post('/register', async (req, res) => {
     // Create token
     const token = jwt.sign(
       { id: user._id }, 
-      process.env.JWT_SECRET || 'fallback_secret', // ✅ Add fallback
+      process.env.JWT_SECRET || 'fallback_secret', 
       { expiresIn: '30d' }
     );
     
     res.status(201).json({
-      success: true, // ✅ Add success flag
+      success: true, 
       message: 'User created successfully',
       token,
       user: {
@@ -97,7 +97,7 @@ router.post('/login', async (req, res) => {
       });
     }
     
-    // ✅ FIX: Use bcrypt to compare passwords
+ 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       console.log('❌ Invalid password for:', email);
@@ -109,15 +109,15 @@ router.post('/login', async (req, res) => {
     
     console.log('✅ Login successful for:', user.email);
     
-    // Create token
+  
     const token = jwt.sign(
       { id: user._id }, 
-      process.env.JWT_SECRET || 'fallback_secret', // ✅ Add fallback
+      process.env.JWT_SECRET || 'fallback_secret', 
       { expiresIn: '30d' }
     );
     
     res.json({
-      success: true, // ✅ Add success flag
+      success: true, 
       message: 'Login successful',
       token,
       user: {
