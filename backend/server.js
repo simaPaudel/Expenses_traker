@@ -35,35 +35,41 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expense-t
 // Function to create admin user
 const createAdminUser = async () => {
   try {
+    console.log('🔄 Starting admin user creation...');
     
     const User = require('./models/User');
     
-    // Check if admin already exists - USE THE SAME EMAIL
-    const existingAdmin = await User.findOne({ email: 'admin@ttest.com' });
+    // Check if admin exists
+    const existingAdmin = await User.findOne({ email: 'admin@test.com' });
     
     if (existingAdmin) {
-      console.log('✅ Admin user already exists');
+      console.log('✅ Admin user already exists in database');
+      console.log('📧 Existing admin email:', existingAdmin.email);
       return;
     }
 
+    console.log('🔧 Creating new admin user...');
+    
+    // Create admin with password
+    const hashedPassword = await bcrypt.hash('admin123', 12);
     
     const adminUser = new User({
       name: 'System Administrator',
-      email: 'admin@testt.com', 
+      email: 'admin@test.com', 
+      password: hashedPassword,
       role: 'admin'
     });
 
     await adminUser.save();
-    console.log('🎉 ADMIN USER CREATED SUCCESSFULLY!');
-    console.log('📧 Email: admin@testt.com');
+    console.log('🎉 ADMIN USER CREATED SUCCESSFULLY ON DEPLOYMENT!');
+    console.log('📧 Email: admin@test.com');
     console.log('🔑 Password: admin123');
-    console.log('👤 Role: admin');
 
   } catch (error) {
-    console.log(' Admin creation error:', error.message);
+    console.log('❌ ADMIN CREATION FAILED:', error.message);
+    console.log('❌ Error stack:', error.stack);
   }
 };
-
 
 app.get('/', (req, res) => {
   res.json({ message: 'Expense Tracker API is working!' });
