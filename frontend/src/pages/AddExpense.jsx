@@ -3,6 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// Add this at the top
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const AddExpense = () => {
   const [formData, setFormData] = useState({
     description: "",
@@ -55,7 +58,7 @@ const handleSubmit = async (e) => {
 
     console.log('Sending expense data:', expenseData);
 
-    const response = await axios.post('http://localhost:5000/api/expenses', expenseData);
+    const response = await axios.post(`${API_BASE_URL}/api/expenses`, expenseData);
     
     console.log('✅ Expense added successfully:', response.data);
     

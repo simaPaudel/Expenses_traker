@@ -1,9 +1,11 @@
-
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
+
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -65,7 +67,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/expenses/admin/users");
+      const response = await axios.get(`${API_BASE_URL}/api/expenses/admin/users`);
       setUsers(response.data.data?.users || response.data.users || []);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -74,7 +76,7 @@ const AdminDashboard = () => {
 
   const fetchAllExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/expenses/admin/all-expenses");
+      const response = await axios.get(`${API_BASE_URL}/api/expenses/admin/all-expenses`);
       setAllExpenses(response.data.data?.expenses || response.data.expenses || []);
       setLoading(false);
     } catch (error) {
@@ -106,7 +108,7 @@ const AdminDashboard = () => {
   const createUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", userForm);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/register`, userForm);
       if (response.data.success) {
         setShowUserForm(false);
         setUserForm({ name: "", email: "", role: "user", password: "" });
@@ -129,7 +131,7 @@ const AdminDashboard = () => {
         totalAmount: totalAmount,
       };
 
-      const response = await axios.post("http://localhost:5000/api/expenses/admin/create", expenseData);
+      const response = await axios.post(`${API_BASE_URL}/api/expenses/admin/create`, expenseData);
       if (response.data.success) {
         setShowExpenseForm(false);
         setExpenseForm({ 
@@ -162,7 +164,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/expenses/admin/users/${editingUser}`,
+        `${API_BASE_URL}/api/expenses/admin/users/${editingUser}`,
         editUserForm
       );
       if (response.data.success) {
@@ -178,7 +180,7 @@ const AdminDashboard = () => {
   const deleteUser = async (userId, userName) => {
     if (window.confirm(`Are you sure you want to delete user "${userName}"? This will also delete all their expenses.`)) {
       try {
-        const response = await axios.delete(`http://localhost:5000/api/expenses/admin/users/${userId}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/expenses/admin/users/${userId}`);
         if (response.data.success) {
           fetchUsers();
         }
@@ -213,7 +215,7 @@ const AdminDashboard = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/expenses/admin/expense/${editingExpense}`,
+        `${API_BASE_URL}/api/expenses/admin/expense/${editingExpense}`,
         expenseData
       );
       if (response.data.success) {
@@ -229,7 +231,7 @@ const AdminDashboard = () => {
   const deleteExpense = async (expenseId, description) => {
     if (window.confirm(`Are you sure you want to delete expense "${description}"?`)) {
       try {
-        const response = await axios.delete(`http://localhost:5000/api/expenses/admin/expense/${expenseId}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/expenses/admin/expense/${expenseId}`);
         if (response.data.success) {
           fetchAllExpenses();
         }
@@ -263,7 +265,6 @@ const AdminDashboard = () => {
       </div>
     );
   }
-
   return (
     <div className="admin-dashboard">
       {/* Sidebar */}
